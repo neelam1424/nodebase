@@ -1,58 +1,52 @@
-"use client"
+"use client";
 
-
-import { Button } from "@/components/ui/button";
-import { requireAuth } from "@/lib/auth-utils"
-import { caller, trpc } from "@/trpc/server";
-import { LogoutButton } from "./logout";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useTRPC } from "@/trpc/client";
-import { success } from "zod";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { useTRPC } from "@/trpc/client";
+import { LogoutButton } from "./logout";
 
-
-const Page = () =>{
-
+const Page = () => {
   // await requireAuth();
 
   // const data = await caller.getUsers()
 
   const trpc = useTRPC();
-  const queryClient = useQueryClient()
-  const {data} = useQuery(trpc.getworkflows.queryOptions());
+  const _queryClient = useQueryClient();
+  const { data } = useQuery(trpc.getworkflows.queryOptions());
 
-  const testAi = useMutation(trpc.testAi.mutationOptions({
-    onSuccess:()=>{
-      toast.success("AI Job queued");
-    }
-  }))
+  const testAi = useMutation(
+    trpc.testAi.mutationOptions({
+      onSuccess: () => {
+        toast.success("AI Job queued");
+      },
+      onError: () => {
+        toast.error("Something went wrong");
+      },
+    }),
+  );
 
-  const create = useMutation(trpc.createWorkflow.mutationOptions({
-    onSuccess: ()=>{
-      toast.success("Job queued");
-    }
-  }));
+  const create = useMutation(
+    trpc.createWorkflow.mutationOptions({
+      onSuccess: () => {
+        toast.success("Job queued");
+      },
+    }),
+  );
 
-
-
-  
-
-  return(
+  return (
     <div className="min-h-screen min-w-screen flex items-center justify-center flex-col gap-y-6">
       protected server component
-      <div >
-      {JSON.stringify(data, null,2)}
-      </div>
-      <Button disabled={testAi.isPending} onClick={()=> testAi.mutate()}>
+      <div>{JSON.stringify(data, null, 2)}</div>
+      <Button disabled={testAi.isPending} onClick={() => testAi.mutate()}>
         Test AI
       </Button>
-      <Button disabled={create.isPending} onClick={()=>create.mutate()}>
+      <Button disabled={create.isPending} onClick={() => create.mutate()}>
         Create workflow
       </Button>
-      <LogoutButton/>
-      
+      <LogoutButton />
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

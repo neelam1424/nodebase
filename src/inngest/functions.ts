@@ -1,7 +1,6 @@
-import prisma from "@/lib/db";
-import { inngest } from "./client";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
+import { inngest } from "./client";
 
 const google = createGoogleGenerativeAI();
 
@@ -9,15 +8,56 @@ export const execute = inngest.createFunction(
   { id: "execute-ai" },
   { event: "execute/ai" },
   async ({ event, step }) => {
-    await step.sleep("pretend","5s")
-   
+    await step.sleep("pretend", "5s");
 
-    const {steps}= await step.ai.wrap(
+
+    console.warn("Something is missing");
+    console.error("This is an error I want to track")
+
+    const { text } = await step.ai.wrap(
       "gemini-generate-text",
-      generateText,{
-      model:google("gemini-2.5-flash"),
-      system:"You are a helpful assistant.",
-      prompt:"What is 2+2?",
-    })
+       generateText, 
+       {
+        model: google("gemini-1.5-flash"),
+        system: "You are a helpful assistant.",
+        prompt: "What is 2+2?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+      },
+    });
+
+    return {text}
   },
 );
+
+// import { createGoogleGenerativeAI } from "@ai-sdk/google";
+// import { generateText } from "ai";
+// import { inngest } from "./client";
+
+// const google = createGoogleGenerativeAI({
+//   apiKey: process.env.GOOGLE_API_KEY!,
+// });
+
+// export const execute = inngest.createFunction(
+//   { id: "execute-ai" },
+//   { event: "execute/ai" },
+//   async ({ step }) => {
+//     await step.sleep("pretend", "5s");
+
+//     const { text } = await step.ai.wrap(
+//       "gemini-generate-text",
+//       generateText,
+//       {
+//         model: google("gemini-1.5-flash"),
+//         system: "You are a helpful assistant.",
+//         prompt: "What is 2+2?",
+//       }
+//     );
+
+//     console.log("AI result:", text);
+
+//     return { success: true };
+//   }
+// );
