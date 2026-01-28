@@ -1,5 +1,4 @@
-import {createLoader} from "nuqs/server";
+import { createLoader } from "nuqs/server";
 import { workflowParams } from "../params";
 
-
-export const workflowsParamsLoader = createLoader(workflowParams)
+export const workflowsParamsLoader = createLoader(workflowParams);

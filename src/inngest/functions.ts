@@ -10,25 +10,21 @@ export const execute = inngest.createFunction(
   async ({ event, step }) => {
     await step.sleep("pretend", "5s");
 
-
     console.warn("Something is missing");
-    console.error("This is an error I want to track")
+    console.error("This is an error I want to track");
 
-    const { text } = await step.ai.wrap(
-      "gemini-generate-text",
-       generateText, 
-       {
-        model: google("gemini-1.5-flash"),
-        system: "You are a helpful assistant.",
-        prompt: "What is 2+2?",
-        experimental_telemetry: {
-          isEnabled: true,
-          recordInputs: true,
-          recordOutputs: true,
+    const { text } = await step.ai.wrap("gemini-generate-text", generateText, {
+      model: google("gemini-1.5-flash"),
+      system: "You are a helpful assistant.",
+      prompt: "What is 2+2?",
+      experimental_telemetry: {
+        isEnabled: true,
+        recordInputs: true,
+        recordOutputs: true,
       },
     });
 
-    return {text}
+    return { text };
   },
 );
 
