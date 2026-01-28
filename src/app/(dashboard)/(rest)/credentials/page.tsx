@@ -1,10 +1,8 @@
 import { requireAuth } from "@/lib/auth-utils";
 
-const Page = async() => {
+const Page = async () => {
+  await requireAuth();
+  return <p>Credentials</p>;
+};
 
-    await requireAuth();
-    return <p>Credentials</p>
-    
-}
-
-export default Page
+export default Page;

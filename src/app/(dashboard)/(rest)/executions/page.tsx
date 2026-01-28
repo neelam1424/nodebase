@@ -1,9 +1,8 @@
-import { requireAuth } from "@/lib/auth-utils"
+import { requireAuth } from "@/lib/auth-utils";
 
-const Page = async() => {
-    await requireAuth()
-    return <p>Executions</p>
-    
-}
+const Page = async () => {
+  await requireAuth();
+  return <p>Executions</p>;
+};
 
-export default Page
+export default Page;

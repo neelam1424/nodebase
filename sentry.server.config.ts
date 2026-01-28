@@ -12,7 +12,7 @@ Sentry.init({
       recordInputs: true,
       recordOutputs: true,
     }),
-    Sentry.consoleLoggingIntegration({ levels: ["log","warn","error"]}),
+    Sentry.consoleLoggingIntegration({ levels: ["log", "warn", "error"] }),
   ],
 
   // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
@@ -25,12 +25,6 @@ Sentry.init({
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
   sendDefaultPii: true,
 });
-
-
-
-
-
-
 
 // // Import with `import * as Sentry from "@sentry/nextjs"` if you are using ESM
 // const Sentry = require("@sentry/nextjs");
